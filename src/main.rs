@@ -20,6 +20,12 @@ fn main() {
         let _ = stream.write(message.as_bytes());
         let _ = stream.flush();
         println!("sent: {}", message);
+
+        // read the result
+        let mut buffer = [0; 1024];
+        let len = stream.read(&mut buffer).unwrap();
+        let message = String::from_utf8_lossy(&buffer[..len]);
+        println!("received: {}", message);
     } else {
         println!("failed to connect to echo server {}", ECHO_SERVER_ADDRESS);
     }
